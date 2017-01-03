@@ -78,8 +78,6 @@ class MarkovChain extends Component {
       currentGram = result.substring(result.length - order, result.length)
     }
 
-    console.log(result.length)
-
     result = result.split(/\s\s+/).join('\'')
 
     if(list.includes(result)) {
