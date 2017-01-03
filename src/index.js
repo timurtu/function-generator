@@ -112,7 +112,7 @@ render(
   <MarkovChain
     // length of each ngram
     order={8}
-    // amount of resulting characters
+    // max amount of resulting characters
     count={100}
   />,
   document.getElementById('root')

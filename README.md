@@ -2,6 +2,7 @@
 
 ## Install
 ```
+git clone https://github.com/timurtu/proverb-generator
 npm install
 ```
 

@@ -1,7 +1,6 @@
 {
-  "name": "markov-chain",
+  "name": "proverb-generator",
   "version": "0.1.0",
-  "private": true,
   "devDependencies": {
     "bluebird": "^3.4.7",
     "cheerio": "^0.22.0",
