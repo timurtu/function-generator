@@ -15,3 +15,8 @@ npm start
 ```
 npm run scrape
 ```
+
+## Start the app in prod mode
+```
+npm run prod
+```

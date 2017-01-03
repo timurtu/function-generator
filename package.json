@@ -1,24 +1,28 @@
 {
   "name": "proverb-generator",
   "version": "0.1.0",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "bluebird": "^3.4.7",
     "cheerio": "^0.22.0",
     "gutil-color-log": "^1.0.2",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.0",
+    "pushstate-server": "^2.1.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
     "react-scripts": "0.8.4",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   },
-  "dependencies": {
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
-  },
   "scripts": {
     "scrape": "nodemon --harmony_array_includes scrape.js",
+    "prod": "npm-run-all build serve:prod",
+    "serve:prod": "pushstate-server build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "homepage": ""
 }
