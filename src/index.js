@@ -60,7 +60,7 @@ class MarkovChain extends Component {
   generate() {
 
     const { order, count } = this.props
-    const { ngrams, beginnings } = this.state
+    const { ngrams, beginnings, list } = this.state
 
     let currentGram = randomItemFromArray(beginnings)
     let result = currentGram
@@ -78,7 +78,13 @@ class MarkovChain extends Component {
       currentGram = result.substring(result.length - order, result.length)
     }
 
+    console.log(result.length)
 
+    result = result.split(/\s\s+/).join('\'')
+
+    if(list.includes(result)) {
+      return this.generate()
+    }
 
     this.setState({
       results: [
@@ -112,10 +118,8 @@ class MarkovChain extends Component {
 
 render(
   <MarkovChain
-    // length of each ngram
-    order={8}
-    // max amount of resulting characters
-    count={100}
+    order={6}
+    count={400}
   />,
   document.getElementById('root')
 )

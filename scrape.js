@@ -39,6 +39,7 @@ const save = items => fs.writeFileSync(path, JSON.stringify(items))
 
 const removeQuotes = str => str.split(/"/).length > 1 ? str.split(/"/)[1] : str
 
-scrape('http://www.phrasemix.com/collections/50-more-of-the-most-important-english-proverbs', '.quoted-title')
+scrape('http://www.smart-words.org/quotes-sayings/idioms-meaning.html', 'dt')
+  // .then(console.log)
   .then(save)
   .then(() => log('cyan', `Saved scraped contents to ${path}.`))
