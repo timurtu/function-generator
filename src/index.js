@@ -78,6 +78,8 @@ class MarkovChain extends Component {
       currentGram = result.substring(result.length - order, result.length)
     }
 
+
+
     this.setState({
       results: [
         result,
@@ -93,7 +95,7 @@ class MarkovChain extends Component {
 
         <label style={{ padding: '1em' }} htmlFor="show">Show all proverbs</label>
 
-        <input onClick={() => {
+        <input onChange={() => {
           this.setState({ showAll: !this.state.showAll })
         }} checked={this.state.showAll} id="show" type="checkbox"/>
 
