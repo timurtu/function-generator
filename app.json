@@ -3,6 +3,6 @@
   "description": "Generates proverbs with the Markov Chain Algorithm.",
   "repository": "https://git.heroku.com/proverb-generator.git",
   "logo": "https://cdn3.iconfinder.com/data/icons/shopping-solid-icons-vol-3/64/125-512.png",
-  "keywords": ["generate", "proverb", "genorator", "sentences"],
+  "keywords": ["generate", "proverb", "generator", "sentences"],
   "image": "heroku/nodejs"
 }
