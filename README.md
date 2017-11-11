@@ -1,4 +1,4 @@
-# Proverb generator
+# Function generator
 
 ## Install
 ```
