@@ -1,7 +1,6 @@
 {
-  "name": "proverb-generator",
+  "name": "function-generator",
   "version": "0.1.0",
-  "devDependencies": {},
   "dependencies": {
     "bluebird": "^3.4.7",
     "cheerio": "^0.22.0",

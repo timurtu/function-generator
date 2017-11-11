@@ -2,21 +2,20 @@
 
 ## Install
 ```
-git clone https://github.com/timurtu/proverb-generator
-npm install
+yarn install
 ```
 
 ## Start the app
 ```
-npm start
+yarn start
 ```
 
 ## Word scraper
 ```
-npm run scrape
+yarn scrape
 ```
 
 ## Start the app in prod mode
 ```
-npm run prod
+yarn prod
 ```

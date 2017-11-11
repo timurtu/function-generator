@@ -1,123 +1,120 @@
-import React, { Component } from 'react'
-import { render } from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
 
-const randomItemFromArray = arr => arr[Math.floor(Math.random() * arr.length)]
+const randomItemFromArray = arr => arr[Math.floor(Math.random() * arr.length)];
 
-class MarkovChain extends Component {
+class FunctionGenerator extends React.Component {
+	constructor() {
+		super();
 
-  constructor() {
-    super()
+		this.state = {
+			results: [],
+			ngrams: {},
+			beginnings: [],
+			showAll: true,
+		};
+	}
 
-    this.state = {
-      results: [],
-      ngrams: {},
-      beginnings: [],
-      showAll: true
-    }
-  }
+	componentWillMount() {
+		fetch("./res/list.json")
+			.then(res => res.json())
+			.then(list => {
+				this.setState({ list });
+				this.setup();
+			});
+	}
 
-  componentWillMount() {
+	setup() {
+		const { order } = this.props;
+		const { ngrams, list, beginnings } = this.state;
 
-    fetch('./res/list.json')
-      .then(res => res.json())
-      .then(list => {
-        this.setState({ list })
-        this.setup()
-      })
-  }
+		for (let j = 0; j < list.length; j++) {
 
-  setup() {
+			const text = list[j];
 
-    const { order } = this.props
-    const { ngrams, list, beginnings } = this.state
+			for (let i = 0; i <= text.length - order; i++) {
 
-    for (let j = 0; j < list.length; j++) {
+				const gram = text.substring(i, i + order);
 
-      const text = list[j]
+				if (i === 0) {
+					beginnings.push(gram);
+					this.setState({ beginnings });
+				}
 
-      for (let i = 0; i <= text.length - order; i++) {
+				if (!ngrams[gram]) {
+					ngrams[gram] = [];
+				}
 
-        const gram = text.substring(i, i + order)
+				ngrams[gram].push(text.charAt(i + order));
+			}
+		}
 
-        if (i === 0) {
-          beginnings.push(gram)
-          this.setState({ beginnings })
-        }
+		this.setState({
+			ngrams,
+		});
+	}
 
-        if (!ngrams[gram]) {
-          ngrams[gram] = []
-        }
+	generate() {
 
-        ngrams[gram].push(text.charAt(i + order))
-      }
-    }
+		const { order, count } = this.props;
+		const { ngrams, beginnings, list } = this.state;
 
-    this.setState({
-      ngrams
-    })
-  }
+		let currentGram = randomItemFromArray(beginnings);
+		let result = currentGram;
 
-  generate() {
+		for (let i = 0; i < count; i++) {
 
-    const { order, count } = this.props
-    const { ngrams, beginnings, list } = this.state
+			const possibilities = ngrams[currentGram];
 
-    let currentGram = randomItemFromArray(beginnings)
-    let result = currentGram
+			if (!possibilities) {
+				break;
+			}
 
-    for (let i = 0; i < count; i++) {
+			result += randomItemFromArray(possibilities);
 
-      const possibilities = ngrams[currentGram]
+			currentGram = result.substring(result.length - order, result.length);
+		}
 
-      if (!possibilities) {
-        break
-      }
+		result = result.split(/\s\s+/).join("'");
 
-      result += randomItemFromArray(possibilities)
+		if (list.includes(result)) {
+			return this.generate();
+		}
 
-      currentGram = result.substring(result.length - order, result.length)
-    }
+		this.setState({
+			results: [
+				result,
+				...this.state.results
+			],
+		});
+	}
 
-    result = result.split(/\s\s+/).join('\'')
+	render() {
+		return (
+			<div>
+				<button onClick={this.generate.bind(this)}>Generate Proverb</button>
 
-    if(list.includes(result)) {
-      return this.generate()
-    }
+				<label style={{ padding: "1em" }} htmlFor="show">Show all proverbs</label>
 
-    this.setState({
-      results: [
-        result,
-        ...this.state.results
-      ]
-    })
-  }
+				<input onChange={() => {
+					this.setState({ showAll: !this.state.showAll });
+				}} checked={this.state.showAll} id="show" type="checkbox" />
 
-  render() {
-    return (
-      <div>
-        <button onClick={this.generate.bind(this)}>Generate Proverb</button>
+				<h1>{this.state.results[0]}</h1>
 
-        <label style={{ padding: '1em' }} htmlFor="show">Show all proverbs</label>
-
-        <input onChange={() => {
-          this.setState({ showAll: !this.state.showAll })
-        }} checked={this.state.showAll} id="show" type="checkbox"/>
-
-        <h1>{this.state.results[0]}</h1>
-
-        {this.state.showAll ?
-          <ol>
-            {this.state.results.map((result, i) => <li key={i}>{result}</li>)}
-          </ol> : null}
-      </div>
-    )
-  }
+				{this.state.showAll ?
+					<ol>
+						{this.state.results.map((result, i) => <li key={i}>{result}</li>)}
+					</ol> : null}
+			</div>
+		);
+	}
 }
 
-render(
-  <MarkovChain
-    order={6}
-    count={400}
-  />,
-  document.getElementById('root')
-)
+ReactDOM.render(
+	<FunctionGenerator
+		order={6}
+		count={400}
+	/>,
+	document.getElementById("root"),
+);
